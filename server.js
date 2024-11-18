@@ -2,10 +2,13 @@ const express = require("express");
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
 const leadsRoutes = require("./routes/leads");
+require("./corn/processOrdersCorn");
 
 dotenv.config();
 
 const app = express();
+
+app.use(express.json());
 const PORT = process.env.PORT || 5000;
 
 mongoose
