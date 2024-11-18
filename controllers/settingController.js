@@ -24,3 +24,17 @@ exports.toggleAutomatic = async (req, res) => {
   }
 };
 
+exports.getAutomaticVariableStatus = async (req, res) => {
+  try {
+    const settings = await Settings.findOne();
+
+    if (!settings) {
+      return res.status(404).json({ message: 'Settings document not found' });
+    }
+
+    res.status(200).json({ automaticVariable: settings.automaticVariable });
+  } catch (error) {
+    console.error('Error fetching automaticVariable status:', error);
+    res.status(500).json({ message: 'Error fetching automaticVariable status', error: error.message });
+  }
+};
