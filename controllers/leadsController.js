@@ -93,15 +93,12 @@ async function downloadLeads(req, res) {
   try {
     const leads = await getLeads(productname, numOfLines);
     const csv = parse(leads);
-    const filePath = path.join(__dirname, "../first_50_leads.csv");
-    fs.writeFileSync(filePath, csv);
 
-    res.download(filePath, "first_50_leads.csv", (err) => {
-      if (err) {
-        console.error("Error sending file:", err);
-      }
-      fs.unlinkSync(filePath);
-    });
+    // Set the appropriate headers for file download
+    res.setHeader("Content-Disposition", "attachment; filename=first_50_leads.csv");
+    res.setHeader("Content-Type", "text/csv");
+
+    res.send(csv);
   } catch (error) {
     res.status(400).send(error.message);
   }
